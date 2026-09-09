@@ -7,17 +7,13 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64, legion]
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-
       - name: Validate addon.xml and Python sources
         run: |
-          python - <<'PY'
+          python3 - <<'PY'
           from pathlib import Path
           import ast
           import xml.etree.ElementTree as ET
@@ -35,11 +31,11 @@ jobs:
           PY
 
       - name: Build addon ZIP
-        run: python tools/build_addon_zip.py
+        run: python3 tools/build_addon_zip.py
 
       - name: Validate ZIP layout
         run: |
-          python - <<'PY'
+          python3 - <<'PY'
           from pathlib import Path
           import zipfile
 
